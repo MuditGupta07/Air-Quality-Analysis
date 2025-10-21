@@ -169,30 +169,22 @@ python
 
 ## Application Screenshots
 
-Please add your own screenshots here after running the application.
+![Alt Text](assests/Img1.png)
 
-### Main EDA Dashboard
+![Alt Text](assests/Img2.png)
 
-Code
+![Alt Text](assests/Img3.png)
 
-```
-[Insert Screenshot Here]
+![Alt Text](assests/Img4.png)
 
-```
+![Alt Text](assests/Img5.png)
 
-### Predictive Model Interface
+![Alt Text](assests/Img6.png)
 
-Code
-
-```
-[Insert Screenshot Here]
-
-```
+![Alt Text](assests/Img7.png)
 
 ## Contact & Authorship
 
--   **Name**: <Your Full Name>
-    
--   **Roll Number**: <Your Roll Number>
-    
--   **Email**: <your.email@example.com>
+-   **Name**: **Mudit Gupta**
+
+-   **Email**: <muditg782005@gmail.com>
