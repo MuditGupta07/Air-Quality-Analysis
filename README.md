@@ -1,94 +1,105 @@
-💨 Urban Air Quality Explorer & Prediction App
+
+# 💨 Urban Air Quality Explorer & Prediction App
 
 A comprehensive web application built with Streamlit for the interactive analysis, visualization, and prediction of global urban air quality metrics (PM2.5).
 
-Table of Contents
+## 📚 Table of Contents
 
-Project Goal
+1.  Project Goal
+    
+2.  Dataset Details
+    
+3.  How to Run the Application
+    
+4.  File Structure
+    
+5.  EDA Summary: Key Findings
+    
+6.  Predictive Model Details
+    
+7.  Design Decisions & Assumptions
+    
+8.  Application Screenshots
+    
+9.  Contact & Authorship
+    
 
-Dataset Details
+## Project Goal
 
-How to Run the Application
+The objective of this project is to build an interactive tool for exploring the **Urban Air Quality and Climate Dataset**. The application demonstrates a complete data science workflow, including:
 
-File Structure
+-   **Data Ingestion**: Loading and parsing the primary CSV dataset and its accompanying JSON metadata.
+    
+-   **Exploratory Data Analysis (EDA)**: Providing interactive visualizations to uncover trends and patterns.
+    
+-   **Data Preprocessing**: Implementing a strategy for handling missing data before modeling.
+    
+-   **Predictive Modeling**: Training a machine learning model to predict PM2.5 concentrations based on a set of features.
+    
 
-EDA Summary: Key Findings
+## Dataset Details
 
-Predictive Model Details
+-   **Primary Data File**: `air_quality_global.csv`
+    
+-   **Metadata File**: `metadata.json` (contains details on data sources, quality, and usage recommendations)
+    
+-   **Total Records**: 17,813
+    
+-   **Columns**: 10
+    
+-   **License**: Creative Commons CC0 1.0 (Public Domain)
+    
 
-Design Decisions & Assumptions
+The `metadata.json` file was used to understand the dataset's structure, identify key features, and acknowledge data quality notes which guided the preprocessing strategy.
 
-Application Screenshots
-
-Contact & Authorship
-
-1. Project Goal
-
-The objective of this project is to build an interactive tool for exploring the "Urban Air Quality and Climate Dataset". The application demonstrates a complete data science workflow, including:
-
-Data Ingestion: Loading and parsing the primary CSV dataset and its accompanying JSON metadata.
-
-Exploratory Data Analysis (EDA): Providing interactive visualizations to uncover trends and patterns.
-
-Data Preprocessing: Implementing a strategy for handling missing data before modeling.
-
-Predictive Modeling: Training a machine learning model to predict PM2.5 concentrations based on a set of features.
-
-2. Dataset Details
-
-Primary Data File: air_quality_global.csv
-
-Metadata File: metadata.json (contains details on data sources, quality, and usage recommendations)
-
-Total Records: 17,813 (as per metadata)
-
-Columns: 10
-
-License: Creative Commons CC0 1.0 (Public Domain)
-
-The metadata.json file was used to understand the dataset's structure, identify key features, and acknowledge data quality notes which guided the preprocessing strategy.
-
-3. How to Run the Application
+## How to Run the Application
 
 Follow these steps to set up and run the project locally.
 
-Prerequisites
+### Prerequisites
 
-Python 3.8 or newer
+-   Python 3.8 or newer
+    
+-   pip (Python package installer)
+    
 
-pip (Python package installer)
+### Step 1: Initial Setup
 
-Step 1: Initial Setup
+bash
 
-Clone the repository or download the source code and navigate to the project's root directory. Install all required Python libraries using the requirements.txt file.
-
+```
 # Navigate to the project folder
 cd AirQualityAnalysis
 
 # Install dependencies
 pip install -r requirements.txt
 
+```
 
-Step 2: Train the Predictive Model
+### Step 2: Train the Predictive Model
 
-Before running the app, you must train the machine learning model. This script preprocesses the data, trains a RandomForestRegressor, and saves the final model artifact to the /models directory.
+bash
 
+```
 python train_model.py
 
+```
 
-Step 3: Launch the Streamlit Application
+This script preprocesses the data, trains a `RandomForestRegressor`, and saves the final model artifact to the `/models` directory.
 
-Once the model is trained, you can launch the interactive web application.
+### Step 3: Launch the Streamlit Application
 
+bash
+
+```
 streamlit run app/app.py
 
+```
 
 The application will automatically open in your web browser, typically at http://localhost:8501.
 
-4. File Structure
-
-The project is organized into the following directory structure:
-
+## File Structure
+```
 AirQualityAnalysis/
 │
 ├── app/
@@ -107,55 +118,81 @@ AirQualityAnalysis/
 ├── README.md                   # This documentation file
 └── train_model.py              # Script to preprocess data and train the model
 
+```
 
-5. EDA Summary: Key Findings
+## EDA Summary: Key Findings
 
-Geographic Hotspots: The geospatial map clearly shows that cities in certain regions, particularly in South Asia and Africa, exhibit significantly higher average PM2.5 concentrations, highlighting global disparities in air quality.
+-   **Geographic Hotspots**: Cities in South Asia and Africa exhibit significantly higher average PM2.5 concentrations.
+    
+-   **Strong Pollutant Correlation**: PM2.5 and NO₂ levels show a strong positive correlation, indicating common sources like traffic and industry.
+    
+-   **Seasonal Variations**: Higher PM2.5 levels are observed during colder months, likely due to meteorological factors and heating-related emissions.
+    
 
-Strong Pollutant Correlation: A strong positive correlation was observed between PM2.5 and NO₂ levels, suggesting that they often originate from common combustion-related sources like vehicle traffic and industrial emissions.
+## Predictive Model Details
 
-Seasonal Variations: Time-series analysis reveals distinct seasonal patterns in air pollution, with many cities showing higher PM2.5 levels during colder months, likely due to meteorological conditions and increased fuel burning for heating.
+-   **Algorithm**: `RandomForestRegressor` (Scikit-learn)
+    
+-   **Hyperparameter Tuning**: `GridSearchCV` was used to optimize:
+    
+    -   `n_estimators`
+        
+    -   `max_depth`
+        
+    -   `min_samples_leaf`
+        
+-   **Final Parameters**:
+    
 
-6. Predictive Model Details
+python
 
-Algorithm: RandomForestRegressor from Scikit-learn was chosen for its high accuracy, robustness to outliers, and its built-in mechanism for calculating feature importances without needing complex feature scaling.
+```
+{'max_depth': 20, 'min_samples_leaf': 5, 'n_estimators': 100}
 
-Hyperparameter Tuning: GridSearchCV was employed to systematically find the best model parameters. The following hyperparameters were tuned:
+```
 
-n_estimators (number of trees)
+-   **Evaluation Metrics**:
+    
+    -   **R² Score**: 0.85
+        
+    -   **Mean Squared Error (MSE)**: 35.61
+        
 
-max_depth (maximum depth of each tree)
+## Design Decisions & Assumptions
 
-min_samples_leaf (minimum samples required at a leaf node)
+-   **Missing Value Strategy**: Median imputation for numerical features.
+    
+-   **Feature Selection**: Used `latitude`, `longitude`, `year`, `month`, and `no2_ugm3` as predictors.
+    
+-   **Reproducibility**: Set `random_state=42` for consistent results.
+    
 
-Final Hyperparameters: The best-performing parameters found were {'max_depth': 20, 'min_samples_leaf': 5, 'n_estimators': 100}.
+## Application Screenshots
 
-Evaluation Metrics: The model's performance, evaluated on the held-out test set, is as follows:
+Please add your own screenshots here after running the application.
 
-R-squared (R²): 0.85 (Indicates the model explains 85% of the variance in PM2.5)
+### Main EDA Dashboard
 
-Mean Squared Error (MSE): 35.61
+Code
 
-7. Design Decisions & Assumptions
+```
+[Insert Screenshot Here]
 
-Missing Value Strategy: Missing numerical values in the feature set for the model were imputed using the median of their respective columns. The median is less sensitive to outliers than the mean, making it a more robust choice for this dataset.
+```
 
-Feature Selection: To create a simple yet effective model, a subset of features was selected as predictors: latitude, longitude, year, month, and no2_ugm3. These represent geographical, temporal, and related pollutant information.
+### Predictive Model Interface
 
-Reproducibility: To ensure that the model training and data splitting are deterministic and can be reproduced exactly, a random_state=42 was set in both the train_test_split function and the RandomForestRegressor model.
+Code
 
-8. Application Screenshots
+```
+[Insert Screenshot Here]
 
-(Please add your own screenshots here after running the application)
+```
 
-Main EDA Dashboard:
+## Contact & Authorship
 
-Predictive Model Interface:
-
-9. Contact & Authorship
-
-Name: <Your Full Name>
-
-Roll Number: <Your Roll Number>
-
-Email: <your.email@example.com>
+-   **Name**: <Your Full Name>
+    
+-   **Roll Number**: <Your Roll Number>
+    
+-   **Email**: <your.email@example.com>
